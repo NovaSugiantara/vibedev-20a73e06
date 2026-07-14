@@ -37,7 +37,7 @@ Built with Vue 3 + Tailwind CSS, powered by localStorage — no database, no aut
 - Tailwind CSS (CDN)
 - Sora + Inter (Google Fonts)
 - localStorage for persistence
-- Hash-based routing (`#pollId`)
+- Poll data encoded in URL hash (base64) — cross-device sharing without a server
 - Single HTML file — no build step
 
 ## Deployment
