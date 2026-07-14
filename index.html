@@ -10,12 +10,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* Hallmark · component: poll-card · genre: playful · theme: Coral
- * state: default · hover · active · focus · disabled · loading · success
- * contrast: pass (46–50)
- * Pre-emit critique: P5 H4 E5 S4 R5 V5
- */
-
 :root {
   --color-paper: oklch(0.96 0.008 75);
   --color-surface: oklch(0.99 0.004 75);
@@ -27,7 +21,6 @@
   --color-accent-soft: oklch(0.92 0.04 35);
   --color-accent-glow: oklch(0.62 0.18 35 / 0.2);
   --color-border: oklch(0.88 0.01 75);
-  --color-border-hover: oklch(0.78 0.015 75);
   --color-success: oklch(0.62 0.14 145);
   --color-success-soft: oklch(0.95 0.03 145);
   --color-success-border: oklch(0.85 0.06 145);
@@ -35,112 +28,109 @@
   --shadow-btn: 0 2px 8px oklch(0.62 0.18 35 / 0.3);
   --font-display: 'Sora', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
-  --radius-sm: 0.625rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.125rem;
 }
 
 body { font-family: var(--font-body); background: var(--color-paper); color: var(--color-text); -webkit-font-smoothing: antialiased; }
-
-h1, .font-display { font-family: var(--font-display); }
-
+h1 { font-family: var(--font-display); }
 input::placeholder { color: var(--color-text-3); }
 
-.card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 1.75rem; border: 1px solid var(--color-border); }
+.field { width: 100%; padding: 0.625rem 0.875rem; border-radius: 0.75rem; font-size: 0.9375rem; transition: border-color .2s, box-shadow .2s; background: #fff; border: 1.5px solid var(--color-border); color: var(--color-text); }
+.field:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-glow); }
 
-.opt-card { border-color: var(--color-border); transition: border-color .2s, background .2s, transform .2s, box-shadow .2s; background: var(--color-surface); }
-.opt-card:hover { border-color: var(--color-accent); background: var(--color-accent-soft); transform: translateX(3px); box-shadow: 0 2px 8px oklch(0 0 0 / 0.04); }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: 0.75rem; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: all .2s; border: none; }
+.btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.btn-primary { background: var(--color-accent); color: #fff; font-family: var(--font-display); }
+.btn-primary:hover:not(:disabled) { box-shadow: var(--shadow-btn); transform: translateY(-1px); }
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-outline { background: #fff; border: 1.5px solid var(--color-border); color: var(--color-text); font-weight: 500; font-size: 0.8125rem; }
+.btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn-outline:focus-visible { border-color: var(--color-accent); outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.card { background: var(--color-surface); border-radius: 1.125rem; box-shadow: var(--shadow-card); padding: 1.75rem; border: 1px solid var(--color-border); }
+
+.opt-card { border: 2px solid var(--color-border); background: var(--color-surface); cursor: pointer; transition: border-color .2s, background .2s, transform .2s, box-shadow .2s; display: flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1rem; border-radius: 0.75rem; margin-bottom: 0.625rem; }
+.opt-card:hover { border-color: var(--color-accent); background: var(--color-accent-soft); transform: translateX(3px); }
 .opt-card:active { transform: translateX(3px) scale(.985); }
-.opt-num { background: oklch(0.94 0.008 75); color: var(--color-text-2); transition: background .2s, color .2s; }
+.opt-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.opt-card:last-child { margin-bottom: 0; }
+
+.opt-num { width: 2rem; height: 2rem; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; flex-shrink: 0; background: oklch(0.94 0.008 75); color: var(--color-text-2); transition: background .2s, color .2s; }
 .opt-card:hover .opt-num { background: var(--color-accent); color: #fff; }
 
-.bar-fill { transition: width .6s cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, var(--color-accent-soft), oklch(0.88 0.06 35)); }
+.bar-wrap { margin-bottom: 0.625rem; }
+.bar-wrap:last-child { margin-bottom: 0; }
+.bar { position: relative; padding: 0.875rem 1rem; border-radius: 0.75rem; overflow: hidden; }
+.bar-fill { position: absolute; inset: 0; border-radius: 0.75rem; transition: width .6s cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, var(--color-accent-soft), oklch(0.88 0.06 35)); }
+.bar-voted { background: linear-gradient(90deg, oklch(0.88 0.08 35), oklch(0.82 0.1 35)); }
+.bar-label { position: relative; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
+.bar-text { font-weight: 600; font-size: 0.9375rem; word-break: break-word; padding-right: 0.5rem; }
+.bar-pct { font-weight: 700; font-size: 0.875rem; white-space: nowrap; color: var(--color-accent); }
+.bar-pct-voted { color: var(--color-accent-hover); }
 
-.fade-enter-active, .fade-leave-active { transition: opacity .25s ease, transform .2s ease; }
-.fade-enter-from { opacity: 0; transform: translateY(8px); }
-.fade-leave-to { opacity: 0; transform: translateY(-4px); }
+.vote-badge { display: inline-block; font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.125rem 0.375rem; border-radius: 0.25rem; margin-left: 0.375rem; background: var(--color-accent); color: #fff; }
 
-@keyframes check-in { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
-.check-in { animation: check-in .35s cubic-bezier(.22,1,.36,1); }
+@keyframes check-in { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+.check-in { animation: check-in .35s cubic-bezier(.22,1,.36,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .opt-card, .btn, .field, .bar-fill { transition: none; }
+  .check-in { animation: none; }
+  .btn-primary:hover:not(:disabled) { transform: none; box-shadow: none; }
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 </style>
 </head>
 <body class="min-h-screen flex justify-center p-6 sm:p-8">
 <div id="app" class="w-full max-w-[480px] flex flex-col gap-4">
 
   <template v-if="mode === 'create'">
-    <div class="card">
-      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight" style="font-family:var(--font-display)">Create a Poll</h1>
+    <div class="card" role="form" aria-label="Create a poll">
+      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight">Create a Poll</h1>
       <template v-if="!shareUrl">
-        <label class="block text-[0.75rem] font-semibold mb-1.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Question</label>
-        <input v-model="question" type="text" placeholder="What's your question?" ref="qInput" maxlength="200"
-          class="w-full px-3.5 py-2.5 rounded-xl text-[0.9375rem] mb-3 transition-all bg-white border"
-          style="border-color:var(--color-border);color:var(--color-text)"
-          @focus="$el.style.borderColor='var(--color-accent)';$el.style.boxShadow='0 0 0 3px var(--color-accent-glow)'"
-          @blur="$el.style.borderColor='var(--color-border)';$el.style.boxShadow='none'">
+        <label for="qInput" class="block text-[0.75rem] font-semibold mb-1.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Question</label>
+        <input id="qInput" v-model="question" type="text" placeholder="What's your question?" ref="qInput" maxlength="200" class="field mb-3" aria-required="true">
 
-        <div class="text-[0.75rem] font-semibold mb-2.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Options</div>
+        <div class="text-[0.75rem] font-semibold mb-2.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Options <span class="font-normal normal-case" style="color:var(--color-text-3)">({{ options.length }})</span></div>
         <div v-for="(opt, i) in options" :key="i" class="flex gap-2 items-center mb-2 last:mb-0">
-          <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)" maxlength="100"
-            class="flex-1 px-3.5 py-2.5 rounded-xl text-[0.9375rem] transition-all bg-white border"
-            style="border-color:var(--color-border);color:var(--color-text)"
-            @focus="$el.style.borderColor='var(--color-accent)';$el.style.boxShadow='0 0 0 3px var(--color-accent-glow)'"
-            @blur="$el.style.borderColor='var(--color-border)';$el.style.boxShadow='none'">
-          <button v-if="options.length > 2" @click="options.splice(i, 1)"
-            class="bg-transparent border-none p-1.5 leading-none rounded-lg cursor-pointer transition-all text-lg"
-            style="color:var(--color-text-3)"
-            @mouseenter="$el.style.color='var(--color-accent)'"
-            @mouseleave="$el.style.color='var(--color-text-3)'">&times;</button>
+          <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)" maxlength="100" class="field flex-1" :aria-label="'Option ' + (i + 1)">
+          <button v-if="options.length > 2" @click="options.splice(i, 1)" :aria-label="'Remove option ' + (i + 1)" class="bg-transparent border-none p-1.5 leading-none rounded-lg cursor-pointer transition-all text-lg hover:opacity-60" style="color:var(--color-text-3)">&times;</button>
         </div>
 
-        <button v-if="options.length < 5" @click="options.push('')"
-          class="mt-1.5 inline-flex items-center justify-center px-4 py-2 rounded-xl text-[0.8125rem] font-medium cursor-pointer border-2 border-dashed transition-all w-full bg-transparent"
-          style="border-color:var(--color-border);color:var(--color-text-2)"
-          @mouseenter="$el.style.borderColor='var(--color-accent)';$el.style.color='var(--color-accent)'"
-          @mouseleave="$el.style.borderColor='var(--color-border)';$el.style.color='var(--color-text-2)'">+ Add option</button>
+        <button v-if="options.length < 5" @click="options.push('')" aria-label="Add option" class="mt-1.5 btn-outline w-full border-2 border-dashed px-4 py-2 rounded-xl" style="border-color:var(--color-border);color:var(--color-text-2);background:transparent">+ Add option</button>
 
-        <button @click="createPoll" :disabled="!valid"
-          class="mt-4 inline-flex items-center justify-center px-5 py-3 rounded-xl text-[0.9375rem] font-semibold cursor-pointer border-none transition-all w-full"
-          :class="valid ? 'hover:-translate-y-0.5' : ''"
-          style="background:var(--color-accent);color:#fff;font-family:var(--font-display)"
-          @mouseenter="if(valid)$el.style.boxShadow='var(--shadow-btn)'"
-          @mouseleave="$el.style.boxShadow='none'">Create Poll</button>
+        <button @click="createPoll" :disabled="!valid" class="btn btn-primary w-full mt-4" aria-label="Create poll">{{ valid ? 'Create Poll' : 'Add 2+ options to create' }}</button>
       </template>
 
-      <div v-else class="rounded-xl p-5" style="background:var(--color-success-soft);border:1px solid var(--color-success-border)">
+      <div v-else class="rounded-xl p-5" style="background:var(--color-success-soft);border:1px solid var(--color-success-border)" role="alert">
         <p class="text-[0.8125rem] font-medium mb-2" style="color:var(--color-success)">Share this link:</p>
-        <div class="text-[0.8125rem] bg-white px-3.5 py-2.5 rounded-lg break-all select-all mb-3" style="border:1px solid var(--color-success-border);color:var(--color-accent)">{{ shareUrl }}</div>
+        <div class="text-[0.8125rem] bg-white px-3.5 py-2.5 rounded-lg break-all select-all mb-3" style="border:1px solid var(--color-success-border);color:var(--color-accent)" tabindex="0">{{ shareUrl }}</div>
         <div class="flex gap-2">
-          <button @click="copyLink"
-            class="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-[0.8125rem] font-medium cursor-pointer border-2 transition-all bg-white"
-            style="border-color:var(--color-border);color:var(--color-text)"
-            @mouseenter="$el.style.borderColor='var(--color-accent)';$el.style.color='var(--color-accent)'"
-            @mouseleave="$el.style.borderColor='var(--color-border)';$el.style.color='var(--color-text)'">{{ copied ? 'Copied!' : 'Copy link' }}</button>
-          <button @click="goHome"
-            class="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-[0.8125rem] font-medium cursor-pointer border-2 transition-all bg-white"
-            style="border-color:var(--color-border);color:var(--color-text)"
-            @mouseenter="$el.style.borderColor='var(--color-accent)';$el.style.color='var(--color-accent)'"
-            @mouseleave="$el.style.borderColor='var(--color-border)';$el.style.color='var(--color-text)'">Create another</button>
+          <button @click="copyLink" class="btn-outline flex-1 py-2.5">{{ copied ? 'Copied!' : 'Copy link' }}</button>
+          <button @click="goHome" class="btn-outline flex-1 py-2.5">Create another</button>
         </div>
       </div>
     </div>
   </template>
 
   <template v-else-if="mode === 'vote'">
-    <div class="card">
-      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight" style="font-family:var(--font-display)">{{ poll.question }}</h1>
-      <div v-if="!voted">
-        <div v-for="(opt, i) in poll.options" :key="i" class="opt-card flex items-center gap-3 px-4 py-3.5 rounded-xl mb-2.5 cursor-pointer border-2" @click="vote(i)">
-          <span class="opt-num w-8 h-8 rounded-full flex items-center justify-center text-[0.8125rem] font-bold shrink-0">{{ i + 1 }}</span>
+    <div class="card" :aria-label="'Poll: ' + poll.question" role="region">
+      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight">{{ poll.question }}</h1>
+      <div v-if="!voted" role="radiogroup" aria-label="Options">
+        <div v-for="(opt, i) in poll.options" :key="i" class="opt-card" role="radio" :aria-checked="false" :tabindex="0" @click="vote(i)" @keydown.enter.prevent="vote(i)" @keydown.space.prevent="vote(i)">
+          <span class="opt-num" aria-hidden="true">{{ i + 1 }}</span>
           <span class="font-medium text-[0.9375rem]">{{ opt.text }}</span>
         </div>
       </div>
-      <div v-else>
-        <div v-for="(opt, i) in poll.options" :key="i" class="mb-2.5 last:mb-0 check-in" :style="{ animationDelay: (i * 0.06) + 's' }">
-          <div class="relative px-4 py-3.5 rounded-xl overflow-hidden" style="background:var(--color-accent-soft);">
-            <div class="bar-fill absolute inset-0 rounded-xl" :style="{ width: pct(i) + '%' }"></div>
-            <div class="relative flex justify-between items-center z-10">
-              <span class="font-semibold text-[0.9375rem] break-words pr-2">{{ opt.text }}</span>
-              <span class="font-bold text-sm whitespace-nowrap" style="color:var(--color-accent)">{{ pct(i) }}% <span class="text-[0.75rem] font-medium" style="color:var(--color-text-3)">({{ opt.votes }})</span></span>
+      <div v-else aria-live="polite">
+        <p class="text-[0.75rem] font-medium mb-3 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Results</p>
+        <div v-for="(opt, i) in poll.options" :key="i" class="bar-wrap check-in" :style="{ animationDelay: (i * 0.06) + 's' }">
+          <div class="bar" :style="{ background: i === votedIdx ? 'oklch(0.9 0.06 35)' : 'var(--color-accent-soft)' }">
+            <div class="bar-fill" :class="{ 'bar-voted': i === votedIdx }" :style="{ width: pcts[i] + '%' }"></div>
+            <div class="bar-label">
+              <span class="bar-text">{{ opt.text }}<span v-if="i === votedIdx" class="vote-badge">You</span></span>
+              <span class="bar-pct" :class="{ 'bar-pct-voted': i === votedIdx }">{{ pcts[i] }}% <span class="font-medium text-[0.75rem]" style="color:var(--color-text-3)">({{ opt.votes }})</span></span>
             </div>
           </div>
         </div>
@@ -150,15 +140,11 @@ input::placeholder { color: var(--color-text-3); }
   </template>
 
   <template v-else-if="mode === 'notfound'">
-    <div class="card text-center py-12">
-      <div class="text-5xl mb-4 font-bold" style="color:var(--color-text-3);font-family:var(--font-display)">?</div>
-      <h1 class="text-[1.35rem] font-bold mb-1.5 leading-tight" style="font-family:var(--font-display)">Poll not found</h1>
+    <div class="card text-center py-12" role="alert">
+      <div class="text-5xl mb-4 font-bold" style="color:var(--color-text-3)">?</div>
+      <h1 class="text-[1.35rem] font-bold mb-1.5 leading-tight">Poll not found</h1>
       <p class="text-sm mb-6" style="color:var(--color-text-2)">This poll doesn't exist or has been removed.</p>
-      <button @click="goHome"
-        class="inline-flex items-center justify-center px-5 py-3 rounded-xl text-[0.9375rem] font-semibold cursor-pointer border-none transition-all"
-        style="background:var(--color-accent);color:#fff;font-family:var(--font-display)"
-        @mouseenter="$el.style.boxShadow='var(--shadow-btn)'"
-        @mouseleave="$el.style.boxShadow='none'">Create a poll</button>
+      <button @click="goHome" class="btn btn-primary">Create a poll</button>
     </div>
   </template>
 
@@ -182,10 +168,29 @@ createApp({
     const pollId = ref('')
     const poll = ref(null)
     const voted = ref(false)
+    const votedIdx = ref(-1)
     const copied = ref(false)
     const qInput = ref(null)
 
     const valid = computed(() => question.value.trim() && options.value.filter(o => o.trim()).length >= 2)
+
+    const pcts = computed(() => {
+      if (!poll.value) return []
+      const opts = poll.value.options
+      const total = opts.reduce((s, o) => s + o.votes, 0)
+      if (total === 0) return opts.map(() => 0)
+      const raw = opts.map(o => (o.votes / total) * 100)
+      const floored = raw.map(v => Math.floor(v))
+      let remainder = 100 - floored.reduce((s, v) => s + v, 0)
+      if (remainder <= 0) return floored
+      const diffs = raw.map((v, i) => ({ i, d: v - floored[i] }))
+      diffs.sort((a, b) => b.d - a.d)
+      const result = [...floored]
+      for (let i = 0; i < remainder; i++) result[diffs[i].i]++
+      return result
+    })
+
+    const totalVotes = computed(() => poll.value ? poll.value.options.reduce((s, o) => s + o.votes, 0) : 0)
 
     function createPoll() {
       if (!valid.value) return
@@ -210,7 +215,15 @@ createApp({
       if (!polls[id]) { mode.value = 'notfound'; return }
       pollId.value = id
       poll.value = polls[id]
-      voted.value = !!load(VOTED_KEY)[id]
+      const votedPolls = load(VOTED_KEY)
+      const vd = votedPolls[id]
+      if (vd && typeof vd === 'object' && vd.idx !== undefined) {
+        voted.value = true
+        votedIdx.value = vd.idx
+      } else {
+        voted.value = !!vd
+        votedIdx.value = -1
+      }
       mode.value = 'vote'
     }
 
@@ -223,17 +236,11 @@ createApp({
       save(POLLS_KEY, polls)
       poll.value = p
       voted.value = true
+      votedIdx.value = idx
       const v = load(VOTED_KEY)
-      v[pollId.value] = true
+      v[pollId.value] = { idx }
       save(VOTED_KEY, v)
     }
-
-    function pct(i) {
-      const total = poll.value.options.reduce((s, o) => s + o.votes, 0)
-      return total === 0 ? 0 : Math.round(poll.value.options[i].votes / total * 100)
-    }
-
-    const totalVotes = computed(() => poll.value ? poll.value.options.reduce((s, o) => s + o.votes, 0) : 0)
 
     function goHome() {
       location.hash = ''
@@ -243,6 +250,7 @@ createApp({
       pollId.value = ''
       question.value = ''
       options.value = ['', '']
+      votedIdx.value = -1
       nextTick(() => qInput.value?.focus())
     }
 
@@ -259,7 +267,7 @@ createApp({
 
     onUnmounted(() => window.removeEventListener('hashchange', onHashChange))
 
-    return { mode, question, options, shareUrl, poll, voted, copied, qInput, valid, createPoll, copyLink, vote, pct, totalVotes, goHome }
+    return { mode, question, options, shareUrl, poll, voted, votedIdx, copied, qInput, valid, pcts, totalVotes, createPoll, copyLink, goHome, vote }
   }
 }).mount('#app')
 </script>
