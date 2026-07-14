@@ -7,98 +7,121 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem; }
-#app { width: 100%; max-width: 480px; }
-.card { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
-h1 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; }
-label { display: block; font-size: .875rem; font-weight: 500; margin-bottom: .25rem; color: #555; }
-input[type="text"] { width: 100%; padding: .625rem .75rem; border: 1px solid #ddd; border-radius: 8px; font-size: .9375rem; margin-bottom: .75rem; }
-input[type="text"]:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.2); }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #1a1a2e; min-height: 100vh; display: flex; justify-content: center; padding: 2rem 1rem; }
+#app { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 1rem; }
+.card { background: #fff; border-radius: 16px; padding: 1.75rem; box-shadow: 0 8px 32px rgba(0,0,0,.15); transition: opacity .3s, transform .3s; }
+h1 { font-size: 1.35rem; font-weight: 700; margin-bottom: 1.25rem; line-height: 1.3; }
+label { display: block; font-size: .8125rem; font-weight: 600; margin-bottom: .35rem; color: #64748b; text-transform: uppercase; letter-spacing: .04em; }
+input[type="text"] { width: 100%; padding: .7rem .85rem; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: .9375rem; margin-bottom: .75rem; transition: border-color .2s; background: #f8fafc; }
+input[type="text"]:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,.15); background: #fff; }
 .opt-row { display: flex; gap: .5rem; align-items: center; }
-.opt-row input { flex: 1; }
-.opt-row button { background: none; border: none; color: #999; cursor: pointer; font-size: 1.25rem; padding: 0 .25rem; }
+.opt-row input { flex: 1; margin-bottom: 0; }
+.opt-row button { background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 1.35rem; padding: 0 .25rem; line-height: 1; transition: color .15s; }
 .opt-row button:hover { color: #ef4444; }
-.btn { display: inline-flex; align-items: center; justify-content: center; padding: .625rem 1.25rem; border-radius: 8px; font-size: .9375rem; font-weight: 500; cursor: pointer; border: none; transition: background .15s; }
-.btn-primary { background: #6366f1; color: #fff; width: 100%; }
-.btn-primary:hover { background: #4f46e5; }
-.btn-outline { background: none; border: 1px solid #ddd; color: #666; font-size: .8125rem; }
-.btn-outline:hover { border-color: #aaa; }
-.share-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 1rem; margin-top: 1rem; }
-.share-box p { font-size: .8125rem; color: #166534; margin-bottom: .5rem; }
-.share-link { display: block; word-break: break-all; font-size: .8125rem; color: #6366f1; background: #fff; padding: .5rem; border-radius: 6px; border: 1px solid #bbf7d0; }
-.option { display: flex; align-items: center; gap: .75rem; padding: .75rem; border: 2px solid #e5e7eb; border-radius: 10px; margin-bottom: .5rem; cursor: pointer; transition: all .15s; position: relative; }
-.option:hover { border-color: #6366f1; background: #f8f8ff; }
-.option.selected { border-color: #6366f1; background: #eef2ff; }
-.option input[type="radio"] { accent-color: #6366f1; width: 1rem; height: 1rem; }
-.bar-bg { position: relative; padding: .75rem; border-radius: 10px; margin-bottom: .5rem; overflow: hidden; }
-.bar-fill { position: absolute; inset: 0; background: #eef2ff; border-radius: 10px; transition: width .4s ease; }
-.bar-label { position: relative; display: flex; justify-content: space-between; z-index: 1; }
-.bar-text { font-weight: 500; }
-.bar-pct { color: #6366f1; font-weight: 600; }
-.total { text-align: center; color: #888; font-size: .8125rem; margin-top: .75rem; }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: .7rem 1.25rem; border-radius: 10px; font-size: .9375rem; font-weight: 600; cursor: pointer; border: none; transition: all .2s; }
+.btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; width: 100%; }
+.btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102,126,234,.4); }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+.btn-outline { background: none; border: 1.5px solid #e2e8f0; color: #64748b; font-size: .8125rem; font-weight: 500; }
+.btn-outline:hover { border-color: #667eea; color: #667eea; }
+.btn-ghost { background: none; border: none; color: #667eea; font-size: .8125rem; font-weight: 500; cursor: pointer; padding: .5rem; }
+.btn-ghost:hover { text-decoration: underline; }
+.share-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1.25rem; margin-top: 1.25rem; }
+.share-box p { font-size: .8125rem; color: #166534; margin-bottom: .5rem; font-weight: 500; }
+.share-link { font-size: .8125rem; color: #667eea; background: #fff; padding: .6rem .75rem; border-radius: 8px; border: 1px solid #bbf7d0; word-break: break-all; user-select: all; }
+.opt-card { display: flex; align-items: center; gap: .75rem; padding: .85rem 1rem; border: 2px solid #e2e8f0; border-radius: 12px; margin-bottom: .6rem; cursor: pointer; transition: all .2s; }
+.opt-card:hover { border-color: #667eea; background: #f8faff; transform: translateX(4px); }
+.opt-card:active { transform: translateX(4px) scale(.99); }
+.opt-num { width: 28px; height: 28px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; color: #64748b; flex-shrink: 0; }
+.opt-card:hover .opt-num { background: #eef2ff; color: #667eea; }
+.bar-wrap { margin-bottom: .6rem; }
+.bar-wrap:last-child { margin-bottom: 0; }
+.bar { position: relative; padding: .85rem 1rem; border-radius: 12px; overflow: hidden; background: #f8fafc; }
+.bar-fill { position: absolute; inset: 0; background: linear-gradient(90deg, #eef2ff, #e0e7ff); border-radius: 12px; transition: width .6s cubic-bezier(.22,1,.36,1); }
+.bar-label { position: relative; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
+.bar-text { font-weight: 600; font-size: .9375rem; }
+.bar-pct { color: #667eea; font-weight: 700; font-size: .875rem; }
+.bar-votes { color: #94a3b8; font-size: .75rem; margin-left: .5rem; }
+.total { text-align: center; color: #94a3b8; font-size: .8125rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #f1f5f9; }
 .add-opt { margin-top: .25rem; }
-.text-sm { font-size: .8125rem; color: #888; }
+.copy-btn { position: relative; }
+.copy-feedback { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: #fff; font-size: .75rem; padding: .25rem .6rem; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.copy-feedback.show { opacity: 1; }
+.fade-enter-active, .fade-leave-active { transition: opacity .25s ease, transform .25s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(8px); }
+.section-title { font-size: .8125rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .5rem; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
 .mt-2 { margin-top: .75rem; }
+.mb-1 { margin-bottom: .5rem; }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="card">
-    <template v-if="mode === 'create'">
+  <template v-if="mode === 'create'">
+    <div class="card">
       <h1>Create a Poll</h1>
       <label>Question</label>
-      <input v-model="question" type="text" placeholder="What's your question?" @keyup.enter="addOption">
-      <label>Options ({{ options.length }})</label>
+      <input v-model="question" type="text" placeholder="What's your question?" ref="qInput" @keydown.enter.prevent="options[0] ? createPoll() : 0">
+      <div class="section-title">Options</div>
       <div v-for="(opt, i) in options" :key="i" class="opt-row">
-        <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)">
-        <button v-if="options.length > 2" @click="options.splice(i, 1)" title="Remove">&times;</button>
+        <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)" @keydown.enter.prevent="i === options.length - 1 && options.length < 5 ? options.push('') : createPoll()">
+        <button v-if="options.length > 2" @click="options.splice(i, 1)">&times;</button>
       </div>
       <button v-if="options.length < 5" class="btn btn-outline add-opt" @click="options.push('')">+ Add option</button>
       <button class="btn btn-primary mt-2" @click="createPoll" :disabled="!valid">Create Poll</button>
       <div v-if="shareUrl" class="share-box">
         <p>Share this link:</p>
         <div class="share-link">{{ shareUrl }}</div>
-        <button class="btn btn-outline mt-2" @click="copyLink">Copy link</button>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem">
+          <button class="btn btn-outline copy-btn" @click="copyLink" style="flex:1">
+            {{ copied ? 'Copied!' : 'Copy link' }}
+          </button>
+          <button class="btn btn-outline" @click="goHome" style="flex:1">Create another</button>
+        </div>
       </div>
-    </template>
-    <template v-else-if="mode === 'vote'">
+    </div>
+  </template>
+  <template v-else-if="mode === 'vote'">
+    <div class="card">
       <h1>{{ poll.question }}</h1>
       <div v-if="!voted">
-        <div v-for="(opt, i) in poll.options" :key="i" class="option" @click="vote(i)">
-          <input type="radio" :checked="false">
-          <span>{{ opt.text }}</span>
+        <div v-for="(opt, i) in poll.options" :key="i" class="opt-card" @click="vote(i)">
+          <span class="opt-num">{{ i + 1 }}</span>
+          <span style="font-weight:500">{{ opt.text }}</span>
         </div>
       </div>
       <div v-else>
-        <div v-for="(opt, i) in poll.options" :key="i" class="bar-bg">
-          <div class="bar-fill" :style="{ width: pct(i) + '%' }"></div>
-          <div class="bar-label">
-            <span class="bar-text">{{ opt.text }}</span>
-            <span class="bar-pct">{{ opt.votes }} ({{ pct(i) }}%)</span>
+        <div v-for="(opt, i) in poll.options" :key="i" class="bar-wrap">
+          <div class="bar">
+            <div class="bar-fill" :style="{ width: pct(i) + '%' }"></div>
+            <div class="bar-label">
+              <span class="bar-text">{{ opt.text }}</span>
+              <span class="bar-pct">{{ pct(i) }}% <span class="bar-votes">({{ opt.votes }})</span></span>
+            </div>
           </div>
         </div>
         <div class="total">{{ totalVotes }} vote{{ totalVotes !== 1 ? 's' : '' }}</div>
       </div>
-    </template>
-    <template v-else-if="mode === 'notfound'">
-      <h1>Poll not found</h1>
-      <p class="text-sm mt-2">This poll doesn't exist or has been removed.</p>
-      <button class="btn btn-outline mt-2" @click="goHome">Create a poll</button>
-    </template>
-  </div>
+    </div>
+  </template>
+  <template v-else-if="mode === 'notfound'">
+    <div class="card" style="text-align:center;padding:2.5rem 1.75rem">
+      <div style="font-size:2.5rem;margin-bottom:.75rem">?</div>
+      <h1 style="margin-bottom:.5rem">Poll not found</h1>
+      <p style="color:#94a3b8;font-size:.875rem;margin-bottom:1.25rem">This poll doesn't exist or has been removed.</p>
+      <button class="btn btn-primary" @click="goHome">Create a poll</button>
+    </div>
+  </template>
 </div>
 <script>
 const POLLS_KEY = 'quickpoll_polls'
 const VOTED_KEY = 'quickpoll_voted'
 
-function load() { try { return JSON.parse(localStorage.getItem(POLLS_KEY)) || {} } catch { return {} } }
-function save(polls) { localStorage.setItem(POLLS_KEY, JSON.stringify(polls)) }
-function loadVoted() { try { return JSON.parse(localStorage.getItem(VOTED_KEY)) || {} } catch { return {} } }
-function saveVoted(v) { localStorage.setItem(VOTED_KEY, JSON.stringify(v)) }
-
+function load(k) { try { return JSON.parse(localStorage.getItem(k)) || {} } catch { return {} } }
+function save(k, v) { localStorage.setItem(k, JSON.stringify(v)) }
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6) }
 
-const { createApp, ref, computed, onMounted, watch } = Vue
+const { createApp, ref, computed, onMounted, nextTick } = Vue
 
 createApp({
   setup() {
@@ -109,43 +132,47 @@ createApp({
     const pollId = ref('')
     const poll = ref(null)
     const voted = ref(false)
+    const copied = ref(false)
+    const qInput = ref(null)
 
     const valid = computed(() => question.value.trim() && options.value.filter(o => o.trim()).length >= 2)
 
     function createPoll() {
       const opts = options.value.filter(o => o.trim()).map(text => ({ text: text.trim(), votes: 0 }))
       const id = genId()
-      const polls = load()
+      const polls = load(POLLS_KEY)
       polls[id] = { question: question.value.trim(), options: opts }
-      save(polls)
+      save(POLLS_KEY, polls)
       shareUrl.value = location.origin + location.pathname + '#' + id
     }
 
     function copyLink() {
-      navigator.clipboard.writeText(shareUrl.value)
+      navigator.clipboard.writeText(shareUrl.value).then(() => {
+        copied.value = true
+        setTimeout(() => { copied.value = false }, 2000)
+      })
     }
 
     function loadPoll(id) {
-      const polls = load()
+      const polls = load(POLLS_KEY)
       if (!polls[id]) { mode.value = 'notfound'; return }
       pollId.value = id
       poll.value = polls[id]
-      const votedPolls = loadVoted()
-      voted.value = !!votedPolls[id]
+      voted.value = !!load(VOTED_KEY)[id]
       mode.value = 'vote'
     }
 
     function vote(idx) {
-      const polls = load()
+      const polls = load(POLLS_KEY)
       const p = polls[pollId.value]
       if (!p) return
       p.options[idx].votes++
-      save(polls)
+      save(POLLS_KEY, polls)
       poll.value = p
       voted.value = true
-      const v = loadVoted()
+      const v = load(VOTED_KEY)
       v[pollId.value] = true
-      saveVoted(v)
+      save(VOTED_KEY, v)
     }
 
     function pct(i) {
@@ -159,16 +186,19 @@ createApp({
       location.hash = ''
       mode.value = 'create'
       shareUrl.value = ''
+      copied.value = false
+      question.value = ''
+      options.value = ['', '']
+      nextTick(() => qInput.value?.focus())
     }
 
     onMounted(() => {
       const id = location.hash.slice(1)
       if (id) loadPoll(id)
+      else qInput.value?.focus()
     })
 
-    watch(question, () => { shareUrl.value = '' })
-
-    return { mode, question, options, shareUrl, poll, voted, selected, valid, createPoll, copyLink, vote, pct, totalVotes, goHome }
+    return { mode, question, options, shareUrl, poll, voted, copied, qInput, valid, createPoll, copyLink, vote, pct, totalVotes, goHome }
   }
 }).mount('#app')
 </script>
