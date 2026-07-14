@@ -8,102 +8,196 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Hallmark · pre-emit critique: P5 H4 E5 S4 R5 V4
+ * Macrostructure: Compact Tool · Theme: Custom (warm paper · coral accent · sans-serif)
+ * Genre: modern-minimal · Enrichment: none (typography only) */
+
 :root {
-  --color-paper: oklch(0.96 0.008 75);
-  --color-surface: oklch(0.99 0.004 75);
-  --color-text: oklch(0.22 0.015 75);
-  --color-text-2: oklch(0.45 0.02 75);
-  --color-text-3: oklch(0.62 0.015 75);
-  --color-accent: oklch(0.62 0.18 35);
-  --color-accent-hover: oklch(0.55 0.18 35);
-  --color-accent-soft: oklch(0.92 0.04 35);
-  --color-accent-glow: oklch(0.62 0.18 35 / 0.2);
-  --color-border: oklch(0.88 0.01 75);
-  --color-success: oklch(0.62 0.14 145);
-  --color-success-soft: oklch(0.95 0.03 145);
-  --color-success-border: oklch(0.85 0.06 145);
-  --shadow-card: 0 1px 3px oklch(0 0 0 / 0.04), 0 4px 16px oklch(0 0 0 / 0.06);
-  --shadow-btn: 0 2px 8px oklch(0.62 0.18 35 / 0.3);
+  --color-paper: oklch(0.97 0.01 70);
+  --color-surface: oklch(1 0 0);
+  --color-surface-hover: oklch(0.97 0.008 70);
+  --color-text: oklch(0.15 0.012 70);
+  --color-text-2: oklch(0.4 0.015 70);
+  --color-text-3: oklch(0.55 0.012 70);
+  --color-text-inv: oklch(1 0 0);
+  --color-accent: oklch(0.6 0.2 30);
+  --color-accent-hover: oklch(0.52 0.2 30);
+  --color-accent-active: oklch(0.46 0.2 30);
+  --color-accent-soft: oklch(0.92 0.04 30);
+  --color-accent-subtle: oklch(0.95 0.025 30);
+  --color-accent-glow: oklch(0.6 0.2 30 / 0.2);
+  --color-accent-bar: oklch(0.86 0.06 35);
+  --color-accent-bar-voted: oklch(0.78 0.12 35);
+  --color-circle-bg: oklch(0.94 0.008 75);
+  --color-bar-bg: oklch(0.9 0.06 35);
+  --color-border: oklch(0.88 0.01 70);
+  --color-border-hover: oklch(0.78 0.015 70);
+  --color-success: oklch(0.58 0.15 145);
+  --color-success-soft: oklch(0.93 0.04 145);
+  --color-success-border: oklch(0.82 0.07 145);
+  --color-focus: oklch(0.6 0.2 30);
+  --color-danger: oklch(0.55 0.18 28);
+  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.04), 0 6px 20px oklch(0 0 0 / 0.06);
+  --shadow-elevated: 0 4px 16px oklch(0 0 0 / 0.08), 0 1px 3px oklch(0 0 0 / 0.04);
+  --shadow-btn: 0 2px 8px oklch(0.6 0.2 30 / 0.3);
+  --shadow-btn-hover: 0 4px 14px oklch(0.6 0.2 30 / 0.35);
   --font-display: 'Sora', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.125rem;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.64, 0, 0.78, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-body { font-family: var(--font-body); background: var(--color-paper); color: var(--color-text); -webkit-font-smoothing: antialiased; }
-h1 { font-family: var(--font-display); }
+html, body { overflow-x: clip; }
+body { font-family: var(--font-body); background: var(--color-paper); color: var(--color-text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+h1, h2, h3 { font-family: var(--font-display); overflow-wrap: anywhere; min-width: 0; }
 input::placeholder { color: var(--color-text-3); }
 
-.field { width: 100%; padding: 0.625rem 0.875rem; border-radius: 0.75rem; font-size: 0.9375rem; transition: border-color .2s, box-shadow .2s; background: #fff; border: 1.5px solid var(--color-border); color: var(--color-text); }
+.field {
+  width: 100%; padding: 0.75rem 0.875rem; border-radius: var(--radius-md); font-size: 0.9375rem;
+  background: var(--color-surface); border: 1.5px solid var(--color-border); color: var(--color-text);
+  transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+.field:hover { border-color: var(--color-border-hover); }
 .field:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px var(--color-accent-glow); }
+.field:disabled { opacity: 0.4; cursor: not-allowed; background: var(--color-paper); }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.625rem 1.25rem; border-radius: 0.75rem; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: all .2s; border: none; }
-.btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-.btn-primary { background: var(--color-accent); color: #fff; font-family: var(--font-display); }
-.btn-primary:hover:not(:disabled) { box-shadow: var(--shadow-btn); transform: translateY(-1px); }
-.btn-primary:active:not(:disabled) { transform: translateY(0); }
-.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
-.btn-outline { background: #fff; border: 1.5px solid var(--color-border); color: var(--color-text); font-weight: 500; font-size: 0.8125rem; }
-.btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem;
+  padding: 0.75rem 1.25rem; border-radius: var(--radius-md); font-size: 0.9375rem; font-weight: 600;
+  cursor: pointer; transition: all .2s var(--ease-out); border: none; line-height: 1.2;
+  min-height: 44px; white-space: nowrap;
+}
+.btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-primary {
+  background: var(--color-accent); color: var(--color-text-inv); font-family: var(--font-display);
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-accent-hover); box-shadow: var(--shadow-btn-hover); transform: translateY(-1px); }
+.btn-primary:active:not(:disabled) { background: var(--color-accent-active); transform: translateY(0); box-shadow: none; }
+.btn-outline {
+  background: var(--color-surface); border: 1.5px solid var(--color-border); color: var(--color-text-2); font-weight: 500;
+}
+.btn-outline:hover:not(:disabled) { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-subtle); }
+.btn-outline:active:not(:disabled) { background: var(--color-accent-soft); }
 .btn-outline:focus-visible { border-color: var(--color-accent); outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.btn-outline:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-ghost {
+  background: transparent; border: none; color: var(--color-text-3); font-weight: 500; padding: 0.5rem;
+  min-width: 44px; min-height: 44px;
+}
+.btn-ghost:hover:not(:disabled) { color: var(--color-text-2); background: var(--color-surface-hover); border-radius: var(--radius-sm); }
+.btn-ghost:active:not(:disabled) { background: var(--color-accent-subtle); }
 
-.card { background: var(--color-surface); border-radius: 1.125rem; box-shadow: var(--shadow-card); padding: 1.75rem; border: 1px solid var(--color-border); }
+.card {
+  background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card);
+  padding: clamp(1.25rem, 4vw, 2rem); border: 1px solid var(--color-border);
+}
 
-.opt-card { border: 2px solid var(--color-border); background: var(--color-surface); cursor: pointer; transition: border-color .2s, background .2s, transform .2s, box-shadow .2s; display: flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1rem; border-radius: 0.75rem; margin-bottom: 0.625rem; }
+.opt-card {
+  border: 2px solid var(--color-border); background: var(--color-surface);
+  cursor: pointer; transition: border-color .2s var(--ease-out), background .2s var(--ease-out), transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: clamp(0.75rem, 2.5vw, 0.875rem) clamp(0.75rem, 2.5vw, 1rem);
+  border-radius: var(--radius-md); margin-bottom: 0.625rem;
+  min-height: 48px;
+}
 .opt-card:hover { border-color: var(--color-accent); background: var(--color-accent-soft); transform: translateX(3px); }
-.opt-card:active { transform: translateX(3px) scale(.985); }
+.opt-card:active { transform: translateX(3px) scale(0.985); background: var(--color-accent-subtle); }
 .opt-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.opt-card[aria-checked="true"],
+.opt-card.selected { border-color: var(--color-accent); background: var(--color-accent-soft); }
 .opt-card:last-child { margin-bottom: 0; }
 
-.opt-num { width: 2rem; height: 2rem; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 0.8125rem; font-weight: 700; flex-shrink: 0; background: oklch(0.94 0.008 75); color: var(--color-text-2); transition: background .2s, color .2s; }
-.opt-card:hover .opt-num { background: var(--color-accent); color: #fff; }
+.opt-num {
+  width: 2rem; height: 2rem; border-radius: 999px; display: flex; align-items: center; justify-content: center;
+  font-size: 0.8125rem; font-weight: 700; flex-shrink: 0;
+  background: var(--color-circle-bg); color: var(--color-text-2);
+  transition: background .2s var(--ease-out), color .2s var(--ease-out);
+}
+.opt-card:hover .opt-num { background: var(--color-accent); color: var(--color-text-inv); }
 
 .bar-wrap { margin-bottom: 0.625rem; }
 .bar-wrap:last-child { margin-bottom: 0; }
-.bar { position: relative; padding: 0.875rem 1rem; border-radius: 0.75rem; overflow: hidden; }
-.bar-fill { position: absolute; inset: 0; border-radius: 0.75rem; transition: width .6s cubic-bezier(.22,1,.36,1); background: linear-gradient(90deg, var(--color-accent-soft), oklch(0.88 0.06 35)); }
-.bar-voted { background: linear-gradient(90deg, oklch(0.88 0.08 35), oklch(0.82 0.1 35)); }
-.bar-label { position: relative; display: flex; justify-content: space-between; align-items: center; z-index: 1; }
-.bar-text { font-weight: 600; font-size: 0.9375rem; word-break: break-word; padding-right: 0.5rem; }
-.bar-pct { font-weight: 700; font-size: 0.875rem; white-space: nowrap; color: var(--color-accent); }
+.bar {
+  position: relative; padding: clamp(0.75rem, 2.5vw, 0.875rem) clamp(0.75rem, 2.5vw, 1rem);
+  border-radius: var(--radius-md); overflow: hidden;
+}
+.bar-fill {
+  position: absolute; inset: 0; border-radius: var(--radius-md);
+  transition: width .6s var(--ease-out);
+  background: linear-gradient(90deg, var(--color-accent-soft), var(--color-accent-bar));
+}
+.bar-voted { background: linear-gradient(90deg, var(--color-accent-bar), var(--color-accent-bar-voted)); }
+.bar-label { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; z-index: 1; }
+.bar-text { font-weight: 600; font-size: 0.9375rem; word-break: break-word; padding-right: 0.5rem; min-width: 0; }
+.bar-pct { font-weight: 700; font-size: 0.875rem; white-space: nowrap; color: var(--color-accent); flex-shrink: 0; }
 .bar-pct-voted { color: var(--color-accent-hover); }
 
-.vote-badge { display: inline-block; font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.125rem 0.375rem; border-radius: 0.25rem; margin-left: 0.375rem; background: var(--color-accent); color: #fff; }
+.vote-badge {
+  display: inline-block; font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 0.125rem 0.375rem; border-radius: 0.25rem; margin-left: 0.375rem;
+  background: var(--color-accent); color: var(--color-text-inv);
+}
 
-@keyframes check-in { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
-.check-in { animation: check-in .35s cubic-bezier(.22,1,.36,1) both; }
+@keyframes check-in {
+  0% { transform: scale(0.85); opacity: 0; }
+  60% { transform: scale(1.04); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.check-in { animation: check-in .35s var(--ease-out) both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .opt-card, .btn, .field, .bar-fill { transition: none; }
-  .check-in { animation: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .opt-card:hover { transform: none; }
   .btn-primary:hover:not(:disabled) { transform: none; box-shadow: none; }
 }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 </style>
 </head>
-<body class="min-h-screen flex justify-center p-6 sm:p-8">
-<div id="app" class="w-full max-w-[480px] flex flex-col gap-4">
+<body class="min-h-screen flex justify-center p-4 sm:p-6 md:p-8">
+<div id="app" class="w-full max-w-[480px] flex flex-col gap-3 sm:gap-4">
 
   <template v-if="mode === 'create'">
     <div class="card" role="form" aria-label="Create a poll">
-      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight">Create a Poll</h1>
-      <template v-if="!shareUrl">
-        <label for="qInput" class="block text-[0.75rem] font-semibold mb-1.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Question</label>
-        <input id="qInput" v-model="question" type="text" placeholder="What's your question?" ref="qInput" maxlength="200" class="field mb-3" aria-required="true">
+      <h1 class="text-[1.35rem] sm:text-[1.5rem] font-bold mb-4 sm:mb-5 leading-tight" style="overflow-wrap:anywhere;min-width:0">Create a Poll</h1>
 
-        <div class="text-[0.75rem] font-semibold mb-2.5 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Options <span class="font-normal normal-case" style="color:var(--color-text-3)">({{ options.length }})</span></div>
-        <div v-for="(opt, i) in options" :key="i" class="flex gap-2 items-center mb-2 last:mb-0">
-          <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)" maxlength="100" class="field flex-1" :aria-label="'Option ' + (i + 1)">
-          <button v-if="options.length > 2" @click="options.splice(i, 1)" :aria-label="'Remove option ' + (i + 1)" class="bg-transparent border-none p-1.5 leading-none rounded-lg cursor-pointer transition-all text-lg hover:opacity-60" style="color:var(--color-text-3)">&times;</button>
+      <template v-if="!shareUrl">
+        <label for="qInput" class="block text-[0.75rem] font-semibold mb-1.5 uppercase tracking-[0.06em]" style="color:var(--color-text-2)">Question</label>
+        <input id="qInput" v-model="question" type="text" placeholder="What's your question?" ref="qInput" maxlength="200" class="field mb-3 sm:mb-4" aria-required="true">
+
+        <div class="text-[0.75rem] font-semibold mb-2 sm:mb-2.5 uppercase tracking-[0.06em]" style="color:var(--color-text-2)">
+          Options <span class="font-normal normal-case" style="color:var(--color-text-3)">({{ options.length }})</span>
         </div>
 
-        <button v-if="options.length < 5" @click="options.push('')" aria-label="Add option" class="mt-1.5 btn-outline w-full border-2 border-dashed px-4 py-2 rounded-xl" style="border-color:var(--color-border);color:var(--color-text-2);background:transparent">+ Add option</button>
+        <div v-for="(opt, i) in options" :key="i" class="flex gap-2 items-center mb-2 last:mb-0">
+          <input v-model="options[i]" type="text" :placeholder="'Option ' + (i + 1)" maxlength="100" class="field flex-1 min-w-0" :aria-label="'Option ' + (i + 1)">
+          <button v-if="options.length > 2" @click="options.splice(i, 1)" :aria-label="'Remove option ' + (i + 1)"
+            class="btn-ghost flex-shrink-0">&times;</button>
+        </div>
 
-        <button @click="createPoll" :disabled="!valid" class="btn btn-primary w-full mt-4" aria-label="Create poll">{{ valid ? 'Create Poll' : 'Add 2+ options to create' }}</button>
+        <button v-if="options.length < 5" @click="options.push('')" aria-label="Add option"
+          class="btn-outline w-full border-2 border-dashed mt-1.5" style="border-color:var(--color-border);color:var(--color-text-2);background:transparent">
+          + Add option
+        </button>
+
+        <button @click="createPoll" :disabled="!valid" class="btn btn-primary w-full mt-3 sm:mt-4" aria-label="Create poll">
+          {{ valid ? 'Create Poll' : 'Add 2+ options to create' }}
+        </button>
       </template>
 
-      <div v-else class="rounded-xl p-5" style="background:var(--color-success-soft);border:1px solid var(--color-success-border)" role="alert">
+      <div v-else class="rounded-xl p-4 sm:p-5" style="background:var(--color-success-soft);border:1px solid var(--color-success-border)" role="alert">
         <p class="text-[0.8125rem] font-medium mb-2" style="color:var(--color-success)">Share this link:</p>
         <div class="text-[0.8125rem] bg-white px-3.5 py-2.5 rounded-lg break-all select-all mb-3" style="border:1px solid var(--color-success-border);color:var(--color-accent)" tabindex="0">{{ shareUrl }}</div>
         <div class="flex gap-2">
@@ -116,33 +210,42 @@ input::placeholder { color: var(--color-text-3); }
 
   <template v-else-if="mode === 'vote'">
     <div class="card" :aria-label="'Poll: ' + poll.question" role="region">
-      <h1 class="text-[1.35rem] font-bold mb-5 leading-tight">{{ poll.question }}</h1>
+      <h1 class="text-[1.35rem] sm:text-[1.5rem] font-bold mb-4 sm:mb-5 leading-tight" style="overflow-wrap:anywhere;min-width:0">{{ poll.question }}</h1>
+
       <div v-if="!voted" role="radiogroup" aria-label="Options">
-        <div v-for="(opt, i) in poll.options" :key="i" class="opt-card" role="radio" :aria-checked="false" :tabindex="0" @click="vote(i)" @keydown.enter.prevent="vote(i)" @keydown.space.prevent="vote(i)">
+        <div v-for="(opt, i) in poll.options" :key="i" class="opt-card" role="radio" :aria-checked="false" :tabindex="0"
+          @click="vote(i)" @keydown.enter.prevent="vote(i)" @keydown.space.prevent="vote(i)">
           <span class="opt-num" aria-hidden="true">{{ i + 1 }}</span>
-          <span class="font-medium text-[0.9375rem]">{{ opt.text }}</span>
+          <span class="font-medium text-[0.9375rem]" style="overflow-wrap:anywhere;min-width:0">{{ opt.text }}</span>
         </div>
       </div>
+
       <div v-else aria-live="polite">
-        <p class="text-[0.75rem] font-medium mb-3 uppercase tracking-[0.05em]" style="color:var(--color-text-2)">Results</p>
+        <p class="text-[0.75rem] font-medium mb-3 uppercase tracking-[0.06em]" style="color:var(--color-text-2)">Results</p>
         <div v-for="(opt, i) in poll.options" :key="i" class="bar-wrap check-in" :style="{ animationDelay: (i * 0.06) + 's' }">
-          <div class="bar" :style="{ background: i === votedIdx ? 'oklch(0.9 0.06 35)' : 'var(--color-accent-soft)' }">
+          <div class="bar" :style="{ background: i === votedIdx ? 'var(--color-bar-bg)' : 'var(--color-accent-soft)' }">
             <div class="bar-fill" :class="{ 'bar-voted': i === votedIdx }" :style="{ width: pcts[i] + '%' }"></div>
             <div class="bar-label">
-              <span class="bar-text">{{ opt.text }}<span v-if="i === votedIdx" class="vote-badge">You</span></span>
-              <span class="bar-pct" :class="{ 'bar-pct-voted': i === votedIdx }">{{ pcts[i] }}% <span class="font-medium text-[0.75rem]" style="color:var(--color-text-3)">({{ opt.votes }})</span></span>
+              <span class="bar-text" style="overflow-wrap:anywhere;min-width:0">
+                {{ opt.text }}<span v-if="i === votedIdx" class="vote-badge">You</span>
+              </span>
+              <span class="bar-pct" :class="{ 'bar-pct-voted': i === votedIdx }">
+                {{ pcts[i] }}% <span class="font-medium text-[0.75rem]" style="color:var(--color-text-3)">({{ opt.votes }})</span>
+              </span>
             </div>
           </div>
         </div>
-        <div class="text-center mt-4 pt-4 text-[0.8125rem]" style="color:var(--color-text-3);border-top:1px solid var(--color-border)">{{ totalVotes }} vote{{ totalVotes !== 1 ? 's' : '' }}</div>
+        <div class="text-center mt-4 pt-3 sm:pt-4 text-[0.8125rem]" style="color:var(--color-text-3);border-top:1px solid var(--color-border)">
+          {{ totalVotes }} vote{{ totalVotes !== 1 ? 's' : '' }}
+        </div>
       </div>
     </div>
   </template>
 
   <template v-else-if="mode === 'notfound'">
-    <div class="card text-center py-12" role="alert">
-      <div class="text-5xl mb-4 font-bold" style="color:var(--color-text-3)">?</div>
-      <h1 class="text-[1.35rem] font-bold mb-1.5 leading-tight">Poll not found</h1>
+    <div class="card text-center py-10 sm:py-12" role="alert">
+      <div class="text-4xl sm:text-5xl mb-4 font-bold" style="color:var(--color-text-3)">?</div>
+      <h1 class="text-[1.35rem] sm:text-[1.5rem] font-bold mb-1.5 leading-tight" style="overflow-wrap:anywhere;min-width:0">Poll not found</h1>
       <p class="text-sm mb-6" style="color:var(--color-text-2)">This poll doesn't exist or has been removed.</p>
       <button @click="goHome" class="btn btn-primary">Create a poll</button>
     </div>
