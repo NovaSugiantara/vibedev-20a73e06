@@ -150,12 +150,18 @@ input::placeholder { color: var(--color-text-3); }
 
 </div>
 <script>
-const POLLS_KEY = 'quickpoll_polls'
 const VOTED_KEY = 'quickpoll_voted'
 
-function load(k) { try { return JSON.parse(localStorage.getItem(k)) || {} } catch { return {} } }
-function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} }
-function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6) }
+function loadVotes() { try { return JSON.parse(localStorage.getItem(VOTED_KEY)) || {} } catch { return {} } }
+function saveVotes(v) { try { localStorage.setItem(VOTED_KEY, JSON.stringify(v)) } catch {} }
+
+function encodePoll(q, opts) {
+  return btoa(JSON.stringify({ q: q.trim(), o: opts.filter(t => t.trim()).map(t => t.trim()) }))
+}
+
+function decodePoll(s) {
+  try { return JSON.parse(atob(s)) } catch { return null }
+}
 
 const { createApp, ref, computed, onMounted, onUnmounted, nextTick } = Vue
 
@@ -165,7 +171,7 @@ createApp({
     const question = ref('')
     const options = ref(['', ''])
     const shareUrl = ref('')
-    const pollId = ref('')
+    const pollHash = ref('')
     const poll = ref(null)
     const voted = ref(false)
     const votedIdx = ref(-1)
@@ -194,12 +200,8 @@ createApp({
 
     function createPoll() {
       if (!valid.value) return
-      const opts = options.value.filter(o => o.trim()).map(text => ({ text: text.trim(), votes: 0 }))
-      const id = genId()
-      const polls = load(POLLS_KEY)
-      polls[id] = { question: question.value.trim(), options: opts }
-      save(POLLS_KEY, polls)
-      shareUrl.value = location.origin + location.pathname + '#' + id
+      const encoded = encodePoll(question.value, options.value)
+      shareUrl.value = location.origin + location.pathname + '#' + encoded
     }
 
     function copyLink() {
@@ -209,19 +211,20 @@ createApp({
       }).catch(() => {})
     }
 
-    function loadPoll(id) {
-      if (!id) return
-      const polls = load(POLLS_KEY)
-      if (!polls[id]) { mode.value = 'notfound'; return }
-      pollId.value = id
-      poll.value = polls[id]
-      const votedPolls = load(VOTED_KEY)
-      const vd = votedPolls[id]
+    function loadPoll(encoded) {
+      if (!encoded) return
+      const data = decodePoll(encoded)
+      if (!data || !data.q || !data.o || data.o.length < 2) { mode.value = 'notfound'; return }
+      pollHash.value = encoded
+      poll.value = { question: data.q, options: data.o.map(t => ({ text: t, votes: 0 })) }
+      const votedPolls = loadVotes()
+      const vd = votedPolls[encoded]
       if (vd && typeof vd === 'object' && vd.idx !== undefined) {
         voted.value = true
         votedIdx.value = vd.idx
+        poll.value.options[vd.idx].votes = vd.votes || 1
       } else {
-        voted.value = !!vd
+        voted.value = false
         votedIdx.value = -1
       }
       mode.value = 'vote'
@@ -229,17 +232,12 @@ createApp({
 
     function vote(idx) {
       if (voted.value) return
-      const polls = load(POLLS_KEY)
-      const p = polls[pollId.value]
-      if (!p || !p.options[idx]) return
-      p.options[idx].votes++
-      save(POLLS_KEY, polls)
-      poll.value = p
       voted.value = true
       votedIdx.value = idx
-      const v = load(VOTED_KEY)
-      v[pollId.value] = { idx }
-      save(VOTED_KEY, v)
+      poll.value.options[idx].votes++
+      const v = loadVotes()
+      v[pollHash.value] = { idx, votes: poll.value.options[idx].votes }
+      saveVotes(v)
     }
 
     function goHome() {
@@ -247,7 +245,7 @@ createApp({
       mode.value = 'create'
       shareUrl.value = ''
       copied.value = false
-      pollId.value = ''
+      pollHash.value = ''
       question.value = ''
       options.value = ['', '']
       votedIdx.value = -1
@@ -255,8 +253,8 @@ createApp({
     }
 
     function onHashChange() {
-      const id = location.hash.slice(1)
-      if (id) loadPoll(id)
+      const hash = location.hash.slice(1)
+      if (hash) loadPoll(hash)
       else goHome()
     }
 
